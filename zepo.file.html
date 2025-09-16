@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Landing Page — CSS Grid Only</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box
+        }
+        
+         :root {
+            /* Color tokens (light) */
+            --bg: #f8fafc;
+            --panel: #ffffff;
+            --muted: #6b7280;
+            --accent: #0ea5a4;
+            --accent-600: #089e9c;
+            --text: #0f172a;
+            --glass: rgba(15, 23, 42, 0.06);
+            /* sizing */
+            --max-width: 1200px;
+            --gap: clamp(0.75rem, 1.2vw, 1.25rem);
+            --container-padding: clamp(1rem, 2.2vw, 2rem);
+            /* transitions */
+            --fast: 160ms;
+            --med: 260ms;
+        }
+        /* Dark theme tokens */
+        
+         :root[data-theme="dark"] {
+            --bg: #061121;
+            --panel: #071226;
+            --muted: #94a3b8;
+            --accent: #34d399;
+            --accent-600: #10b981;
+            --text: #e6eef6;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+        
+        html,
+        body {
+            height: 100%
+        }
+        
+        body {
+            margin: 0;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background: linear-gradient(180deg, var(--bg), color-mix(in srgb, var(--bg) 92%, var(--panel) 8%));
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.4;
+            padding: calc(var(--container-padding));
+        }
+        /* Utility container centered using CSS Grid */
+        
+        .container {
+            max-width: var(--max-width);
+            margin-inline: auto;
+            display: grid;
+            /* grid only */
+            gap: var(--gap);
+        }
+        /* Header / Nav */
+        
+        header {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: var(--gap);
+            background: transparent;
+            padding: 0.25rem 0;
+        }
+        
+        .brand {
+            display: inline-grid;
+            grid-auto-flow: column;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 700;
+            font-size: clamp(1rem, 1.4vw, 1.125rem);
+            color: var(--text);
+        }
+        
+        .nav-links {
+            justify-self: center;
+            display: grid;
+            grid-auto-flow: column;
+            gap: 1.15rem;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--muted);
+            padding: 0.25rem 0.4rem;
+            border-radius: 8px;
+        }
+        
+        .nav-links a:hover {
+            color: var(--text);
+            background: var(--glass)
+        }
+        
+        .cta {
+            padding: 0.5rem 0.9rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent-600));
+            color: white;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 6px 18px rgba(14, 165, 164, 0.12);
+            transform: translateZ(0);
+            transition: transform var(--fast) ease, box-shadow var(--fast) ease;
+        }
+        /* Hover interaction 1: cta scales and lifts */
+        
+        .cta:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 14px 28px rgba(14, 165, 164, 0.16)
+        }
+        
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 520px;
+            /* desktop */
+            gap: var(--gap);
+            align-items: center;
+            padding: clamp(1rem, 2.5vw, 2rem);
+            background: linear-gradient(180deg, color-mix(in srgb, var(--panel) 85%, var(--bg) 15%), var(--panel));
+            border-radius: 14px;
+            box-shadow: 0 6px 30px rgba(2, 6, 23, 0.06);
+            overflow: hidden;
+        }
+        /* The left column content stack also implemented using grid rows */
+        
+        .hero-content {
+            display: grid;
+            gap: calc(var(--gap) * 0.8);
+        }
+        
+        .kicker {
+            color: var(--accent);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            font-size: clamp(0.8rem, 1.1vw, 0.95rem)
+        }
+        
+        h1 {
+            font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+            margin: 0
+        }
+        
+        p.lead {
+            margin: 0;
+            color: var(--muted);
+            font-size: clamp(1rem, 1.8vw, 1.1rem)
+        }
+        
+        .hero-cta-row {
+            display: grid;
+            grid-auto-flow: column;
+            gap: 0.8rem;
+            align-items: center
+        }
+        
+        .secondary-cta {
+            padding: 0.55rem 0.9rem;
+            background: transparent;
+            color: var(--text);
+            border-radius: 10px;
+            border: 1px solid transparent;
+            box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.04);
+            text-decoration: none;
+            transition: transform var(--med) ease, background var(--med) ease;
+        }
+        
+        .secondary-cta:hover {
+            transform: translateY(-3px);
+            background: var(--glass)
+        }
+        /* Hero image / visual represented as a card grid */
+        
+        .hero-visual {
+            display: grid;
+            gap: var(--gap);
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .visual-card {
+            background: linear-gradient(180deg, var(--panel), color-mix(in srgb, var(--panel) 88%, var(--bg) 12%));
+            border-radius: 12px;
+            padding: clamp(1rem, 1.8vw, 1.25rem);
+            box-shadow: 0 6px 22px rgba(2, 6, 23, 0.04);
+            min-height: 120px;
+            display: grid;
+            gap: 0.6rem;
+            align-content: center;
+            transition: transform var(--med) ease, box-shadow var(--med) ease;
+        }
+        /* Hover interaction 2: visual cards subtly lift */
+        
+        .visual-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 30px 40px rgba(2, 6, 23, 0.07)
+        }
+        
+        .visual-card h4 {
+            margin: 0
+        }
+        
+        .visual-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.95rem
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--gap);
+        }
+        
+        .feature-card {
+            background: var(--panel);
+            border-radius: 12px;
+            padding: clamp(0.85rem, 1.6vw, 1.1rem);
+            box-shadow: 0 8px 24px rgba(2, 6, 23, 0.04);
+            display: grid;
+            gap: 0.5rem;
+        }
+        
+        .feature-card h3 {
+            margin: 0;
+            font-size: 1.05rem
+        }
+        
+        .feature-card p {
+            margin: 0;
+            color: var(--muted)
+        }
+        /* Footer */
+        
+        footer {
+            padding: 1rem 0 0 0;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: var(--gap);
+            align-items: center;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+        /* Responsive rules using only CSS Grid + media queries */
+        
+        @media (max-width:1100px) {
+            .hero {
+                grid-template-columns: 1fr 1fr
+            }
+            .features {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+        
+        @media (max-width:720px) {
+            /* Stack everything single column on small screens */
+            header {
+                grid-template-columns: 1fr auto
+            }
+            .nav-links {
+                display: none
+            }
+            /* mobile menu omitted for this demo */
+            .hero {
+                grid-template-columns: 1fr;
+                padding: clamp(0.8rem, 1.6vw, 1rem)
+            }
+            .hero-visual {
+                grid-template-columns: 1fr 1fr
+            }
+            .features {
+                grid-template-columns: 1fr
+            }
+            footer {
+                grid-template-columns: 1fr;
+                text-align: center
+            }
+        }
+        /* clamp usage for spacing within cards */
+        
+        .feature-card .badge {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            background: var(--glass)
+        }
+        /* Accessibility focus outlines */
+        
+        a:focus,
+        button:focus {
+            outline: 3px solid color-mix(in srgb, var(--accent) 30%, transparent);
+            outline-offset: 3px
+        }
+        /* Toggle switch styles */
+        
+        .theme-toggle {
+            display: inline-grid;
+            grid-auto-flow: column;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .toggle-btn {
+            --size: 2.2rem;
+            width: var(--size);
+            height: var(--size);
+            border-radius: 999px;
+            background: linear-gradient(90deg, color-mix(in srgb, var(--panel) 86%, var(--bg) 14%), var(--panel));
+            display: inline-grid;
+            place-items: center;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(2, 6, 23, 0.06);
+            transition: transform var(--fast) ease, background var(--med) ease;
+        }
+        
+        .toggle-btn[aria-pressed="true"] {
+            background: linear-gradient(90deg, var(--accent), var(--accent-600));
+            color: white
+        }
+        /* small helpers */
+        
+        .muted {
+            color: var(--muted)
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="brand">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <rect x="3" y="3" width="18" height="18" rx="6" fill="var(--accent)"/>
+        </svg>
+                <div>Acme Grid</div>
+            </div>
+
+            <nav class="nav-links" aria-label="Primary">
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#about">About</a>
+            </nav>
+
+            <div style="display:grid; grid-auto-flow:column; gap:0.6rem; align-items:center;">
+                <div class="theme-toggle">
+                    <span class="muted" style="font-size:0.9rem">Theme</span>
+                    <button id="themeBtn" class="toggle-btn" aria-pressed="false" aria-label="Toggle dark mode" tabindex="0" title="Toggle theme">
+            <!-- simple icon -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" fill="currentColor"/></svg>
+          </button>
+                </div>
+                <a class="cta" href="#signup">Get Started</a>
+            </div>
+        </header>
+
+        <main>
+            <section class="hero" aria-labelledby="hero-heading">
+                <div class="hero-content">
+                    <div class="kicker">Launch faster</div>
+                    <h1 id="hero-heading">A modern landing built with <span style="color:var(--accent)">CSS Grid</span> only</h1>
+                    <p class="lead">Clean, responsive layout built using CSS Grid and a minimal JavaScript toggle. Resize the viewport to see the grid adapt — no Flexbox, no frameworks.</p>
+
+                    <div class="hero-cta-row">
+                        <a class="cta" href="#try">Try free</a>
+                        <a class="secondary-cta" href="#learn">Learn more</a>
+                    </div>
+
+                </div>
+
+                <aside class="hero-visual" aria-hidden="true">
+                    <div class="visual-card">
+                        <h4>Analytics</h4>
+                        <p>Real-time insights, beautifully presented in a compact card.</p>
+                    </div>
+                    <div class="visual-card">
+                        <h4>Integrations</h4>
+                        <p>Connect the tools you already use with 1-click setup.</p>
+                    </div>
+                    <div class="visual-card">
+                        <h4>Security</h4>
+                        <p>Privacy-first architecture, TLS, and secure defaults.</p>
+                    </div>
+                    <div class="visual-card">
+                        <h4>Performance</h4>
+                        <p>Optimized bundle size and server-friendly markup.</p>
+                    </div>
+                </aside>
+            </section>
+
+            <section id="features" style="margin-top:calc(var(--gap) * 1.2)">
+                <div style="display:grid; gap:var(--gap)">
+                    <h2 style="margin:0; font-size:clamp(1.2rem,2.2vw,1.5rem)">Features</h2>
+                    <p class="muted" style="margin:0">Everything you need to ship — designed to adapt.</p>
+                </div>
+
+                <div class="features" style="margin-top:var(--gap)">
+                    <article class="feature-card">
+                        <span class="badge">Fast</span>
+                        <h3>Built for speed</h3>
+                        <p>Optimized CSS-only layout ensures predictable rendering and easier maintenance.</p>
+                    </article>
+
+                    <article class="feature-card">
+                        <span class="badge">Responsive</span>
+                        <h3>Fluid breakpoints</h3>
+                        <p>Clamp() and relative units make typography and spacing adapt smoothly.</p>
+                    </article>
+
+                    <article class="feature-card">
+                        <span class="badge">Accessible</span>
+                        <h3>Keyboard friendly</h3>
+                        <p>Toggle and controls are focusable with clear outlines for keyboard users.</p>
+                    </article>
+                </div>
+
+            </section>
+
+        </main>
+
+        <footer>
+            <div>© <span id="year"></span> Acme Grid — Built with care</div>
+            <div class="muted">Made with CSS Grid</div>
+        </footer>
+    </div>
+
+    <script>
+        // small script for theme toggle + accessibility
+        (function() {
+            const btn = document.getElementById('themeBtn');
+            const root = document.documentElement;
+            const KEY = 'acme.theme';
+
+            // apply saved or system preference
+            const saved = localStorage.getItem(KEY);
+            if (saved) {
+                root.setAttribute('data-theme', saved);
+                btn.setAttribute('aria-pressed', saved === 'dark')
+            }
+
+            function toggleTheme() {
+                const isDark = root.getAttribute('data-theme') === 'dark';
+                const next = isDark ? 'light' : 'dark';
+                root.setAttribute('data-theme', next);
+                btn.setAttribute('aria-pressed', next === 'dark');
+                localStorage.setItem(KEY, next);
+            }
+
+            // click
+            btn.addEventListener('click', toggleTheme);
+
+            // keyboard accessibility: Space or Enter toggles the button
+            btn.addEventListener('keydown', function(e) {
+                if (e.key === ' ' || e.key === 'Enter') {
+                    e.preventDefault();
+                    toggleTheme();
+                }
+            });
+
+            // set year
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+        })();
+    </script>
+</body>
+
+</html>
